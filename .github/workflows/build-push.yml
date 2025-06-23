@@ -30,8 +30,8 @@ jobs:
           context: ./go-redis-app # Path to the directory containing the Dockerfile for the Go app
           push: true
           tags: |
-            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:latest # Tag for the latest version
-            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:${{ github.sha }} # Tag with Git SHA for specific commit
+            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:latest 
+            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:${{ github.sha }} 
           # No build arguments needed for this Go app based on your provided code
 
       # --- Build and Push React Frontend Image ---
