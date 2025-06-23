@@ -1,0 +1,57 @@
+name: Build and Push Multi-Tier Docker Images
+
+on:
+  push:
+    branches:
+      - main # Trigger this workflow when code is pushed to the 'main' branch
+
+env:
+  # Define your Docker Hub username here
+  DOCKER_HUB_USERNAME: danieledun # <-- IMPORTANT: Replace with your actual Docker Hub username
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu runner for each job
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Action to clone your repository
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }} # Use a GitHub Secret for your Docker Hub Access Token
+
+      # --- Build and Push Go Backend Image ---
+      - name: Build and Push Go Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./go-redis-app # Path to the directory containing the Dockerfile for the Go app
+          push: true
+          tags: |
+            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:latest # Tag for the latest version
+            ${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:${{ github.sha }} # Tag with Git SHA for specific commit
+          # No build arguments needed for this Go app based on your provided code
+
+      # --- Build and Push React Frontend Image ---
+      - name: Build and Push React Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./react-frontend # Path to the directory containing the Dockerfile for the React app
+          push: true
+          tags: |
+            ${{ env.DOCKER_HUB_USERNAME }}/react-frontend-app:latest
+            ${{ env.DOCKER_HUB_USERNAME }}/react-frontend-app:${{ github.sha }}
+          # Example build arguments for React if needed (e.g., for API URL, though better handled at runtime)
+          # build-args: |
+          #   VITE_GO_API_URL=http://my-full-stack-go-app:8080 # Example if you needed to bake it in
+
+
+      - name: Verify Pushed Images (Optional)
+        run: |
+          echo "Successfully built and pushed images:"
+          echo "${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:latest"
+          echo "${{ env.DOCKER_HUB_USERNAME }}/go-redis-app:${{ github.sha }}"
+          echo "${{ env.DOCKER_HUB_USERNAME }}/react-frontend-app:latest"
+          echo "${{ env.DOCKER_HUB_USERNAME }}/react-frontend-app:${{ github.sha }}"
