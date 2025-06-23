@@ -3,7 +3,7 @@ name: Build and Push Multi-Tier Docker Images
 on:
   push:
     branches:
-      - main # Trigger this workflow when code is pushed to the 'main' branch
+      - master # Trigger this workflow when code is pushed to the 'main' branch
 
 env:
   # Define your Docker Hub username here
