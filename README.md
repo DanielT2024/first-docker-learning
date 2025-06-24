@@ -4,22 +4,9 @@ This repository contains a simple multi-tier web application designed for learni
 
 
 ## Project Structure
-├── go-redis-app/           # Go backend application
-│   ├── Dockerfile          # Dockerfile for the Go backend
-│   ├── main.go             # Go backend source code
-│   ├── go.mod              # Go module definition
-│   └── go.sum              # Go module checksums
-├── react-frontend/         # React frontend application (Example directory)
-│   ├── Dockerfile          # Dockerfile for the React frontend
-│   ├── src/
-│   └── public/
-│   └── package.json
-│   └── ...
-├── .github/workflows/      # GitHub Actions workflows for CI/CD
-│   └── main.yml            # Example: Workflow for building and pushing images
-└── README.md               # This file
-
+![project structure](https://github.com/user-attachments/assets/7c3651f6-1eed-44dd-ac63-a9e1602d029e)
 ## Project Overview
+
 
 This application demonstrates a classic 3-tier architecture:
 
